@@ -1,0 +1,21 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo name
+        shell: bash
+        run: |
+          echo "Hello World, here I am the PARENT workflow"
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer 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" \
+            https://api.github.com/repos/yquansah/argocd-test/actions/workflows/triggered.yml/dispatches \
+            -d '{"ref": "main", "inputs": {"imageTag": "this-tag"}}'
